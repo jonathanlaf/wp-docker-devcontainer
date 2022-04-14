@@ -1,0 +1,7 @@
+version: '3.3'
+
+services:
+  adminer:
+    network_mode: service:wordpress
+  mailhog:
+    network_mode: service:wordpress
