@@ -1,8 +1,9 @@
-version: '3.3'
+version: '3.8'
 
+name: ${PROJECT_NAME}
 services:
   mysql:
-    image: mysql:5.7
+    image: mysql:${MYSQL_VERSION}
     volumes:
       - ${MYSQL_VOLUME}:/var/lib/mysql
     environment:
@@ -19,17 +20,24 @@ services:
         XDEBUG_MODE: ${XDEBUG_MODE}
         XDEBUG_IDEKEY: ${XDEBUG_IDEKEY}
     volumes:
-      - ${WORDPRESS_VOLUME}:/var/www/html
+      - ${WORDPRESS_LOCAL_VOLUME}:${WORDPRESS_DISTANT_VOLUME}
     environment:
       WORDPRESS_DB_HOST: mysql
-      WORDPRESS_DB_USER: ${WORDPRESS_USER}
-      WORDPRESS_DB_PASSWORD: ${WORDPRESS_PASS}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASS}
       WORDPRESS_DB_NAME: ${DATABASE}
       WP_DEBUG: ${WP_DEBUG}
       TZ: ${TIMEZONE}
+    ports:
+      - ${WORDPRESS_PORT}:80
   adminer:
     image: adminer:latest
     environment:
       ADMINER_DEFAULT_SERVER: mysql
+    ports:
+      - ${ADMINER_PORT}:8080
   mailhog:
     image: mailhog/mailhog
+    ports:
+      - ${MAILHOG_PORT}:1025
+      - ${MAILHOG_WEB_PORT}:8025

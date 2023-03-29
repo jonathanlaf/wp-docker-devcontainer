@@ -2,6 +2,12 @@ ARG WORDPRESS_VERSION
 
 FROM wordpress:$WORDPRESS_VERSION
 
+RUN echo "####################################################"
+RUN echo "This docker is not intended for production use."
+RUN echo "It is only for development purposes."
+RUN echo "All emails are sent to Mailhog."
+RUN echo "####################################################"
+
 RUN apt-get update
 RUN apt-get install inetutils-ping iproute2 -y
 
